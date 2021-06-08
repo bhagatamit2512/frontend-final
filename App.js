@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { LogBox } from "react-native";
 
-export default function App() {
+import Header from "./Shared/Header";
+import { NavigationContainer } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+//navigators
+import Main from "./Navigators/Main";
+
+//reducer
+import { Provider } from "react-redux";
+import store from "./Redux/store";
+
+//context api
+import Auth from "./Context/store/Auth";
+import MainFinal from "./Navigators/MainFinal";
+
+LogBox.ignoreAllLogs(true);
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Auth>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Header />
+          <MainFinal />
+          <Toast ref={(ref) => Toast.setRef(ref)} />
+        </NavigationContainer>
+      </Provider>
+    </Auth>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
